@@ -3,12 +3,14 @@
   become: true
   tasks:
     - name: install updates (Debian)
+      tags: always
       apt:
         upgrade: dist
         update_cache: yes
       when: ansible_distribution in ["Debian"]
 
     - name: install updates (Ubuntu)
+      tags: always
       apt:
         upgrade: dist
         update_cache: yes
@@ -18,6 +20,7 @@
   become: true
   tasks:
     - name: install apache2 and php for Ubuntu
+      tags: apache, apache2, ubuntu
       apt:
         name:
           - apache2
@@ -26,6 +29,7 @@
       when: ansible_distribution in ["Ubuntu"]
 
     - name: install nginx and htop for Debian
+      tags: nginx, htop, debian
       apt:
         name:
           - nginx
@@ -37,6 +41,7 @@
   become: true
   tasks:
     - name: install mysql-server for Ubuntu
+      tags: mysql, ubuntu
       apt:
         name: mysql-server
         state: latest
@@ -46,6 +51,7 @@
   become: true
   tasks:
     - name: install samba package for Ubuntu
+      tags: samba, ubuntu
       apt:
         name: samba
         state: latest
