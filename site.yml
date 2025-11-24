@@ -1,0 +1,52 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: install updates (Debian)
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_distribution in ["Debian"]
+
+    - name: install updates (Ubuntu)
+      apt:
+        upgrade: dist
+        update_cache: yes
+      when: ansible_distribution in ["Ubuntu"]
+
+- hosts: web_servers
+  become: true
+  tasks:
+    - name: install apache2 and php for Ubuntu
+      apt:
+        name:
+          - apache2
+          - libapache2-mod-php
+        state: latest
+      when: ansible_distribution in ["Ubuntu"]
+
+    - name: install nginx and htop for Debian
+      apt:
+        name:
+          - nginx
+          - htop
+        state: latest
+      when: ansible_distribution in ["Debian"]
+
+- hosts: db_servers
+  become: true
+  tasks:
+    - name: install mysql-server for Ubuntu
+      apt:
+        name: mysql-server
+        state: latest
+      when: ansible_distribution in ["Ubuntu"]
+
+- hosts: file_servers
+  become: true
+  tasks:
+    - name: install samba package for Ubuntu
+      apt:
+        name: samba
+        state: latest
+      when: ansible_distribution in ["Ubuntu"]
